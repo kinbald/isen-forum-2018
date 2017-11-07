@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Forum;
 use AppBundle\Entity\Post;
 
-class ForumControllerController extends Controller
+class ForumController extends Controller
 {
 
     /**
