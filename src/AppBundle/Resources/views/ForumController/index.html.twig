@@ -1,7 +1,23 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:ForumController:index{% endblock %}
+{% block title %}
+Forum - Liste des forums
+{% endblock %}
 
 {% block body %}
-<h1>Welcome to the ForumController:index page</h1>
+<h1>Forum</h1>
+<form action="{{ path('app_forum_add') }}" method="post">
+    Ajouter un forum : <input type="text" name="title" />
+    <input type="submit" value="Ajouter" />
+</form>
+
+<h2>Listes des forums :</h2>
+<ul>
+	{% for id, forum in forums %}
+	<li>
+	   <a href="{{ path('app_forum_detail', {id: id}) }}">{{ forum.title }}</a>
+   </li>
+   {% endfor %}
+</ul>
+
 {% endblock %}
