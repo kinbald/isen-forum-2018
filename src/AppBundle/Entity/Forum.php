@@ -35,7 +35,7 @@ class Forum
 
     /**
      *
-     * @var Collection @ORM\OneToMany(targetEntity="Topic", mappedBy="forum")
+     * @var Collection @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", fetch="EAGER")
      */
     private $topics;
 
@@ -96,6 +96,7 @@ class Forum
     {
         return $this->description;
     }
+
     /**
      * Constructor
      */
@@ -114,7 +115,7 @@ class Forum
     public function addTopic(\AppBundle\Entity\Topic $topic)
     {
         $this->topics[] = $topic;
-
+        
         return $this;
     }
 

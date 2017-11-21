@@ -3,5 +3,17 @@
 {% block title %}AppBundle:Forum:index{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Forum:index page</h1>
+<ul class="collection">
+    {% for forum in forums %}
+    <li class="collection-item avatar">
+        <i class="material-icons circle green">insert_chart</i>
+        <span class="title">
+            <a href="{{ path('app_forum_show', {id: forum.id}) }}">{{ forum.title }}</a>
+        </span>
+        <p>
+            <blockquote>{{ forum.description }}</blockquote>
+        </p>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

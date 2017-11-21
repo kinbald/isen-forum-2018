@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Forum;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/forum")
@@ -12,7 +13,7 @@ class ForumController extends Controller
 {
 
     /**
-     * @Route("/")
+     * @Route("/", name="app_forum_index")
      */
     public function indexAction()
     {
@@ -26,20 +27,40 @@ class ForumController extends Controller
     /**
      * @Route("/add")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
+        if ($request->isMethod('post')) {
+            // create the forum
+            $forum = new Forum();
+            $forum->setTitle($request->get('title'));
+            $forum->setDescription($request->get('description'));
+            
+            // get the manager
+            $em = $this->getDoctrine()->getManager();
+            
+            // persist the new forum
+            $em->persist($forum);
+            
+            // and flush entity manager
+            $em->flush();
+            
+            return $this->redirectToRoute('app_forum_index');
+        }
+        
         return $this->render('AppBundle:Forum:add.html.twig', array(
-            // ...
+            // no data required
         ));
     }
 
     /**
-     * @Route("/{id}", requirements={"id": "\d+"})
+     * @Route("/{id}", requirements={"id": "\d+"}, name="app_forum_show")
      */
-    public function showAction($id)
+    public function showAction(int $id)
     {
         return $this->render('AppBundle:Forum:show.html.twig', array(
-            // ...
+            'forum' => $this->getDoctrine()
+                ->getRepository(Forum::class)
+                ->find($id)
         ));
     }
 }
