@@ -14,12 +14,32 @@ class TopicController extends Controller
 {
 
     /**
+     * @Route("/remove/{id}", requirements={"id": "\d+"}, name="app_topic_remove")
+     */
+    public function removeAction(int $forum_id, int $id)
+    {
+        $post = $this->getDoctrine()
+            ->getRepository(Topic::class)
+            ->find($id);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($post);
+        $em->flush();
+        
+        return $this->redirectToRoute('app_forum_show', [
+            'id' => $forum_id
+        ]);
+    }
+
+    /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="app_topic_show")
      */
     public function indexAction(int $forum_id, int $id)
     {
         return $this->render('AppBundle:Topic:index.html.twig', array(
-            // ...
+            'topic' => $this->getDoctrine()
+                ->getRepository(Topic::class)
+                ->find($id)
         ));
     }
 

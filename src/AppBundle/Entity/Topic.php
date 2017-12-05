@@ -13,37 +13,49 @@ class Topic
 {
 
     /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @var int @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
+     * @ORM\Column(name="title", type="string", length=255)
      *
-     * @var string @ORM\Column(name="title", type="string", length=255)
+     * @var string
      */
     private $title;
 
     /**
+     * @ORM\Column(name="creation", type="datetimetz")
      *
-     * @var \DateTime @ORM\Column(name="creation", type="datetimetz")
+     * @var \DateTime
      */
     private $creation;
 
     /**
+     * @ORM\Column(name="author", type="string", length=255)
      *
-     * @var string @ORM\Column(name="author", type="string", length=255)
+     * @var string
      */
     private $author;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Forum", inversedBy="topics")
+     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id")
      *
-     * @var Forum @ORM\ManyToOne(targetEntity="Forum", inversedBy="topics")
-     *      @ORM\JoinColumn(name="forum_id", referencedColumnName="id")
+     * @var Forum
      */
     private $forum;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="topic", cascade={"remove"})
+     *
+     * @var Collection
+     */
+    private $posts;
 
     /**
      * Get id
@@ -137,7 +149,7 @@ class Topic
     public function setForum(\AppBundle\Entity\Forum $forum = null)
     {
         $this->forum = $forum;
-
+        
         return $this;
     }
 
@@ -149,5 +161,47 @@ class Topic
     public function getForum()
     {
         return $this->forum;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add post
+     *
+     * @param \AppBundle\Entity\Post $post
+     *
+     * @return Topic
+     */
+    public function addPost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+        
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \AppBundle\Entity\Post $post
+     */
+    public function removePost(\AppBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

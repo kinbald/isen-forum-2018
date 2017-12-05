@@ -15,27 +15,33 @@ class Forum
 
     /**
      *
-     * @var int @ORM\Column(name="id", type="integer")
-     *      @ORM\Id
-     *      @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @var int
      */
     private $id;
 
     /**
      *
-     * @var string @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255)
+     *
+     * @var string
      */
     private $title;
 
     /**
+     * @ORM\Column(name="description", type="text", nullable=true)
      *
-     * @var string @ORM\Column(name="description", type="text", nullable=true)
+     * @var string
      */
     private $description;
 
     /**
+     * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", fetch="EAGER")
      *
-     * @var Collection @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", fetch="EAGER")
+     * @var Collection
      */
     private $topics;
 

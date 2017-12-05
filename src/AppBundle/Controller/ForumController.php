@@ -25,7 +25,7 @@ class ForumController extends Controller
     }
 
     /**
-     * @Route("/add")
+     * @Route("/add", name="app_forum_add")
      */
     public function addAction(Request $request)
     {

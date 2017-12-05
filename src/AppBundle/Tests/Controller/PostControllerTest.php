@@ -4,13 +4,13 @@ namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ForumControllerControllerTest extends WebTestCase
+class PostControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function testAdd()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/add');
     }
 
 }

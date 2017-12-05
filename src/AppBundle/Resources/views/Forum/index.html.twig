@@ -3,6 +3,14 @@
 {% block title %}AppBundle:Forum:index{% endblock %}
 
 {% block body %}
+<h3>Forums</h3>
+
+<a href="{{ path('app_forum_add') }}">
+    <button class="btn waves-effect waves-light">
+        New forum <i class="material-icons right">send</i>
+    </button>
+</a>
+
 <ul class="collection">
     {% for forum in forums %}
     <li class="collection-item avatar">
