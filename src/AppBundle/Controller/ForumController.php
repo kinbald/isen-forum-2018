@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Forum;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ForumType;
 
 /**
  * @Route("/forum")
@@ -26,15 +27,18 @@ class ForumController extends Controller
 
     /**
      * @Route("/add", name="app_forum_add")
+     * @Route("/edit/{id}", name="app_forum_edit")
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, Forum $forum = null)
     {
-        if ($request->isMethod('post')) {
-            // create the forum
+        if ($forum === null) {
             $forum = new Forum();
-            $forum->setTitle($request->get('title'));
-            $forum->setDescription($request->get('description'));
-            
+        }
+        
+        $form = $this->createForm(ForumType::class, $forum);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
             // get the manager
             $em = $this->getDoctrine()->getManager();
             
@@ -48,7 +52,7 @@ class ForumController extends Controller
         }
         
         return $this->render('AppBundle:Forum:add.html.twig', array(
-            // no data required
+            'form' => $form->createView()
         ));
     }
 

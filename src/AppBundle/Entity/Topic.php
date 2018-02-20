@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Topic
@@ -22,6 +23,7 @@ class Topic
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=255)
      *
      * @var string
@@ -36,6 +38,7 @@ class Topic
     private $creation;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="author", type="string", length=255)
      *
      * @var string

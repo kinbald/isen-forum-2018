@@ -19,6 +19,7 @@
         <span class="title">
             <a href="{{ path('app_topic_show', {forum_id: forum.id, id: topic.id}) }}">{{ topic.title }}</a>
         </span>
+        <a href="{{ path('app_topic_edit', {forum_id: forum.id, id: topic.id}) }}"><i class="material-icons">edit</i></a>
         <span class="secondary-content">
             {{ topic.author }} - {{ topic.creation | date }}
         </span>

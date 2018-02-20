@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Forum;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Topic;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Form\TopicType;
 
 /**
  * @Route("/forum/{forum_id}/topic", requirements={"forum_id": "\d+"})
@@ -45,20 +47,23 @@ class TopicController extends Controller
 
     /**
      * @Route("/add", name="app_topic_add")
+     * @Route("/edit/{id}", name="app_topic_edit")
+     * @ParamConverter("forum", options={"id" = "forum_id"})
+     * @ParamConverter("topic", options={"id" = "id"})
      */
-    public function addAction(int $forum_id, Request $request)
+    public function addAction(Request $request, Forum $forum, Topic $topic = null)
     {
-        $forum = $this->getDoctrine()
-            ->getRepository(Forum::class)
-            ->find($forum_id);
-        
-        if ($request->isMethod('post')) {
+        if ($topic === null) {
             $topic = new Topic();
-            
-            $topic->setTitle($request->get('title'));
-            $topic->setAuthor($request->get('author'));
-            $topic->setCreation(new \DateTime());
+        }
+        
+        $form = $this->createForm(TopicType::class, $topic);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            // champs externes au formulaire
             $topic->setForum($forum);
+            $topic->setCreation(new \DateTime());
             
             $em = $this->getDoctrine()->getManager();
             $em->persist($topic);
@@ -70,6 +75,7 @@ class TopicController extends Controller
         }
         
         return $this->render('AppBundle:Topic:add.html.twig', array(
+            'form' => $form->createView(),
             'forum' => $forum
         ));
     }

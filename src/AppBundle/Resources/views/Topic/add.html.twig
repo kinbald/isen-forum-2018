@@ -6,23 +6,12 @@ AppBundle:Topic:add
 
 {% block body %}
 <h3>
-	Create new topic in <b>{{ forum.title }}</b>
+	Topic in <b>{{ forum.title }}</b>
 </h3>
 
 <div class="row">
-	<form action="" method="post" class="col s12">
-		<div class="row">
-			<div class="input-field col s12">
-				<input id="title" name="title" type="text" class="validate">
-				<label for="title">Title</label>
-			</div>
-		</div>
-		<div class="row">
-			<div class="input-field col s12">
-				<input id="author" name="author" type="text" class="validate">
-				<label for="author">Author</label>
-			</div>
-		</div>
+	{{ form_start(form) }}
+	   {{ form_widget(form) }}
 
 		<div class="row">
 			<button class="btn waves-effect waves-light" type="submit"
@@ -30,6 +19,6 @@ AppBundle:Topic:add
 				Save <i class="material-icons right">send</i>
 			</button>
 		</div>
-	</form>
+	{{ form_end(form) }}
 </div>
 {% endblock %}

@@ -3,6 +3,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Forum
@@ -24,7 +25,8 @@ class Forum
     private $id;
 
     /**
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 4)
      * @ORM\Column(name="title", type="string", length=255)
      *
      * @var string

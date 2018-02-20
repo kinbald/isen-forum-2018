@@ -17,6 +17,7 @@
         <i class="material-icons circle green">insert_chart</i>
         <span class="title">
             <a href="{{ path('app_forum_show', {id: forum.id}) }}">{{ forum.title }}</a>
+            <a href="{{ path('app_forum_edit', {id: forum.id}) }}"><i class="material-icons">edit</i></a>
         </span>
         <p>
             <blockquote>{{ forum.description }}</blockquote>
